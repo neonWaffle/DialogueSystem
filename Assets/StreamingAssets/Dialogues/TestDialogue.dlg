@@ -1,0 +1,109 @@
+$HasMetPlayer = false
+$Colour = ""
+
+- LINEAR DIALOGUE
+Alice: Hey there!
+Alice: I hope you're doing well!
+Alice: You can speak to everyone here to learn more about different features of the dialogue system.
+Alice: For example, I'm showing you basic linear dialogue right now.
+
+- BRANCHES
+Alex: Hey!
+(if $HasMetPlayer == false)
+	Alex: I'm Alex. Nice to meet you! ($HasMetPlayer = true)
+	Alex: You can talk with me again and you'll get a different response now.
+(else)
+	Alex: Nice to see you again!
+Alex: Bye!
+
+- EXPRESSIONS
+Alex: How are you doing?
+> I'm doing okay.
+	Alex [[happy]]: That's great!
+> Could be better.
+	Alex [[sad]]: I'm sorry to hear that.
+
+- UNREPEATABLE DIALOGUE
+Alex: Some dialogues can only be played once.
+Alex: Like this one!
+
+- RETURNING FROM OPTIONS
+Alice: You can have dialogue options that return to the dialogue line from which they were started.
+Alice: You can try it out.
+> This option will make the dialogue return to the previous line after its response.
+	Alice: We'll be going back now. <-
+> This option will continue the dialogue as usual after its response.
+	Alice: The dialogue will now go further.
+Alice: This also works with nested options!
+> This option will lead you to more nested options.
+	Alice: You can also choose by how many options you want to return.
+	> This option will make the dialogue return to the previous line after its response.
+		Alice: We'll be going back by one line now. <-
+	> This option will make the dialogue return to the line before the previous line after its response.
+		Alice: We'll be going back by two lines now. <- <-
+	> This option will continue the dialogue as usual after its response.
+		Alice: The dialogue will now go further.
+> This option will continue the dialogue as usual after its response.
+	Alice: The dialogue will now go further.
+Alice: That's it for this section!
+
+- OPTIONS
+Alice: What's your favourite food?
+> Pizza!
+	Alice: Do you think pineapples belong on pizza?
+	> Of course, they do!
+		Alice: I knew we'd get along!
+	> No.
+		Alice: Well, I can't say your choice surprises me.
+> Salad!
+	Alice: What's your favourite salad?
+	> Greek salad.
+		Alice: Same here!
+	> Caesar salad.
+		Alice: Nice choice!
+
+- VARIABLES
+Alex: What's your favourite colour?
+> Blue ($Colour = "blue")
+> Red ($Colour = "red")
+> Black ($Colour = "black")
+> Yellow ($Colour = "yellow")
+Alex: My favourite colour is also {$Colour}!
+
+- MULTIPLE ACTORS
+Alice: Multiple actors can be speaking in the same dialogue.
+Alex [[happy]]: Hey there!
+Alice: You can also speak!
+Player: Hi!
+Alice: The current speaker's portrait is always brighter, while the other one appears darker to differentiate them.
+
+- CONDITIONAL OPTIONS
+Alex: Some dialogue options have conditions.
+> (if SkillCheck(10)) Do skill check.
+	Alex: You've passed skill check!
+> This option will increase your skill allowing you to select the skill check option. (IncreaseSkill(5))
+	Alex: You will be able to choose the skill check now! <-
+
+- OPTIONS WITH BRANCHES
+Alice: Dialogue options can also have branches.
+> This option will roll the dice, which will determine which dialogue branch you'll get afterwards.
+	(if RollDice(10))
+		Alice: You've rolled 10 or more this time!
+	(else)
+		Alice: You've rolled less than 10.
+	Alice: This line is shown regardless of the roll. Would you like to try again?
+	> Yes.
+		Alice: Okay! <- <-
+	> No.
+		Alice: Okay.
+> I see.
+Alice: That's it for options and branches.
+
+- COMMANDS
+Alice: Hi again!
+Alice: You can call functions through the dialogue file.
+Alice: Which colour do you prefer?
+> Blue. (ChangeColour("#0093FF"))
+> Black. (ChangeColour("#000000"))
+Alice: You can also call multiple functions at once.
+Alice: Look at this! (ChangeSkybox(1); ToggleSFX(true); PlayAudio("Jingle_Achievement_00", false))
